@@ -317,7 +317,8 @@ public class WinEmp extends JFrame {
 
 	            int res = pstmt.executeUpdate();
 
-	            if (res > 0) {
+	            if (res > 0) {   //어떤 값을 쓰든 0은 아닐거고 0보다 큰 값이니
+	            				//굳이 트루 펄스로 변환안해도 될 것 같아서
 	                ta.append("데이터가 성공적으로 추가되었습니다.\n");
 	            } else {
 	                ta.append("데이터 추가에 실패했습니다.\n");
@@ -459,6 +460,18 @@ public class WinEmp extends JFrame {
 	        ta.append("직원 번호가 비어 있습니다. 수정 대상을 선택하세요.\n");
 	    }
 	}
+//	pstmt.setString(1, tf2.getText());에서
+//	첫 번째 매개변수인 1은 SQL 쿼리의 물음표(placeholder) 위치를 나타냅니다.
+//	JDBC에서는 물음표가 1부터 시작하는 인덱스를 갖습니다.
+//	만약 이름으로 검색하는 경우라면 tf2.getText()의 값을
+//	첫 번째 물음표 위치에 대입하게 됩니다. 
+//	그렇기 때문에 pstmt.setString(1, tf2.getText());에서 
+//	1은 첫 번째 물음표를 의미합니다.
+//	만약 직원번호를 기준으로 검색하는 경우라면 
+//	pstmt.setInt(1, Integer.parseInt(tf1.getText()));와 같이
+//	tf1에 해당하는 값을 첫 번째 물음표에 대입했을 것입니다.
+	
+	
 // // 전체 내용 삭제
 //    public void delete() {
 //        String sql = "delete from emp where empno = ?";
@@ -507,7 +520,7 @@ public class WinEmp extends JFrame {
 //	
 	// 전체 내용 삭제
 	public void delete() {
-	    String empnoText = tf1.getText().trim(); // 공백을 제거한 후에 사용
+	    String empnoText = tf1.getText().trim(); //trim없어도 되지만,정확도
 	    if (hasData()) {
 	        String sql = "delete from emp where empno = ?";
 	        try {
@@ -544,11 +557,34 @@ public class WinEmp extends JFrame {
 	// 입력 필드가 비어 있는지 확인
 	// 수정된 hasData() 메서드
 	private boolean hasData() {
-	    return !tf1.getText().isEmpty() || !tf2.getText().isEmpty() || !tf3.getText().isEmpty() || !tf4.getText().isEmpty()
-	            || !tf5.getText().isEmpty() || !tf6.getText().isEmpty() || !tf7.getText().isEmpty()
-	            || !tf8.getText().isEmpty();
+	    return  !tf1.getText().isEmpty() || !tf2.getText().isEmpty() ||
+	    		!tf3.getText().isEmpty() || !tf4.getText().isEmpty() ||
+	    		!tf5.getText().isEmpty() || !tf6.getText().isEmpty() ||
+	    		!tf7.getText().isEmpty() || !tf8.getText().isEmpty();
 	}
-
+	/*
+	해당 메서드는 hasData라는 이름의 boolean 형태의 메서드입니다. 
+	이 메서드는 여러 개의 텍스트 필드(tf1부터 tf8까지) 중 어느 하나라도 비어있지 않으면
+	 true를 반환하고, 모든 텍스트 필드가 비어있다면 false를 반환합니다. 
+	 여기서 tf1, tf2, ..., tf8은 텍스트 필드 객체로 가정되며, 
+	 각 텍스트 필드의 getText() 메서드를 통해 해당 필드의 텍스트를 가져오고, 
+	 isEmpty() 메서드를 사용하여 해당 텍스트가 비어 있는지를 확인합니다.
+	*/
+	
+	
+	
+	
+//	private boolean hasData() {
+//	    return tf1.getText().isNotEmpty() || tf2.getText().isNotEmpty() || tf3.getText().isNotEmpty()
+//	            || tf4.getText().isNotEmpty() || tf5.getText().isNotEmpty() || tf6.getText().isNotEmpty()
+//	            || tf7.getText().isNotEmpty() || tf8.getText().isNotEmpty();
+//	}
+	
+	
+	
+	
+	
+	
 	public static void main(String[] args) {
 		new WinEmp();
 	}
